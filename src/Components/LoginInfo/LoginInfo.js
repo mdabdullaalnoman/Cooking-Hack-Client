@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
+import './LoginInfo.css';
 
 const LoginInfo = () => {
 
@@ -8,6 +9,7 @@ const LoginInfo = () => {
     const [formValues, setFormValues] = useState(initialValues);
     const [formErrors, setFormErrors] = useState({});
     const [isSubmit, setIsSubmit] = useState(false);
+    console.log(formValues);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -19,6 +21,29 @@ const LoginInfo = () => {
         setFormErrors(validate(formValues));
         setIsSubmit(true);
         console.log(formValues);
+
+        // request the server
+       
+            fetch('http://localhost:7000/user', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formValues)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                // if (data.insertedId) {
+                //     alert('food added success fully')
+                // }
+                // else{
+                //     alert('some things went wrong')
+                // }
+            })
+            
+            // reset();
+
+            // empty dependency array means this effect will only run once (like componentDidMount in classes)
+       
     };
 
     useEffect(() => {
